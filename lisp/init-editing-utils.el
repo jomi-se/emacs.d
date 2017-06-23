@@ -138,6 +138,39 @@ With a prefix argument, insert a newline above the current line."
     (define-key symbol-overlay-mode-map (kbd "M-n") 'symbol-overlay-jump-next)
     (define-key symbol-overlay-mode-map (kbd "M-p") 'symbol-overlay-jump-prev)))
 
+(when (maybe-require-package 'highlight-symbol)
+  (setq highlight-symbol-on-navigation-p t)
+  (defun jomi-se/highlight-symbol-at-point-no-toggle (&optional symbol)
+    "Highlight symbol at point if it isn't already highlighted"
+    (interactive)
+    (let ((symbol (or symbol
+                      (highlight-symbol-get-symbol)
+                      (error "No symbol at point"))))
+      (if (highlight-symbol-symbol-highlighted-p symbol)
+          nil
+        (highlight-symbol-add-symbol symbol)
+        (when (member 'explicit highlight-symbol-occurrence-message)
+          (highlight-symbol-count symbol t)))))
+
+  (defun jomi-se/highlight-and-search-next ()
+    "Highlight symbol under point and search for the next occurence in buffer."
+    (interactive)
+    (jomi-se/highlight-symbol-at-point-no-toggle)
+    (highlight-symbol-next))
+  (defun jomi-se/highlight-and-search-prev ()
+    "Highlight symbol under point and search for the next occurence in buffer."
+    (interactive)
+    (jomi-se/highlight-symbol-at-point-no-toggle)
+    (highlight-symbol-prev))
+  (defun jomi-se/emulate-vim-search-symbol-at-point (&optional prev)
+    "Highlight and search as in Vim"
+    (interactive "P")
+    (if prev
+        (jomi-se/highlight-and-search-prev)
+      (jomi-se/highlight-and-search-next)))
+  (bind-key* (kbd "C-*") 'jomi-se/emulate-vim-search-symbol-at-point)
+  (bind-key* (kbd "C-S-*") 'jomi-se/highlight-and-search-prev))
+
 ;;----------------------------------------------------------------------------
 ;; Zap *up* to char is a handy pair for zap-to-char
 ;;----------------------------------------------------------------------------
