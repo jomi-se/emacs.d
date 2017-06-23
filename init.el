@@ -51,6 +51,7 @@
 (require-package 'bind-key)
 
 (require 'init-frame-hooks)
+(require 'init-buffer-move)
 (require 'init-xterm)
 (require 'init-osx-keys)
 (require 'init-gui-frames)
