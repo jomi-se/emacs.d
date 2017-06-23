@@ -91,6 +91,7 @@
 ;;(require 'init-crontab)
 (require 'init-textile)
 (require 'init-markdown)
+(require 'init-c-cpp)
 (require 'init-csv)
 (require 'init-erlang)
 (require 'init-javascript)
