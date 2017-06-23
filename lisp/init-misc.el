@@ -2,7 +2,6 @@
 ;; Misc config - yet to be placed in separate files
 ;;----------------------------------------------------------------------------
 (add-auto-mode 'tcl-mode "Portfile\\'")
-(fset 'yes-or-no-p 'y-or-n-p)
 
 (add-hook 'prog-mode-hook 'goto-address-prog-mode)
 (setq goto-address-mail-face 'link)
@@ -28,5 +27,20 @@
 
 (add-auto-mode 'conf-mode "Procfile")
 
+;; Disable suspend func
+(put 'suspend-frame 'disabled t)
+
+;; Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el
+(defun revert-buffer-no-confirm ()
+    "Revert buffer without confirmation."
+    (interactive)
+    (revert-buffer :ignore-auto :noconfirm))
+
+;; Insert date func
+(defun insert-current-date () (interactive)
+       (insert (shell-command-to-string "echo -n $(date +%d-%m-%Y)")))
+
+;; Prompt on Emacs exit for fat fingers C-x C-c
+(setq confirm-kill-emacs 'y-or-n-p)
 
 (provide 'init-misc)
