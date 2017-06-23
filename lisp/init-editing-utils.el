@@ -101,8 +101,19 @@ With a prefix argument, insert a newline above the current line."
 
 
 
-(unless (fboundp 'display-line-numbers-mode)
-  (require-package 'nlinum))
+(when (maybe-require-package 'indent-guide)
+  (add-hook 'prog-mode-hook 'indent-guide-mode)
+  (after-load 'indent-guide
+    (diminish 'indent-guide-mode)))
+
+
+
+(when (require 'linum-off)
+  (add-to-list 'linum-disabled-modes-list 'term-mode)
+  (add-to-list 'linum-disabled-modes-list 'helm-mode)
+  (setq linum-disable-starred-buffers t)
+  (setq linum-disable-max-file-lines 4000)
+  (global-linum-mode t))
 
 
 (when (require-package 'rainbow-delimiters)
