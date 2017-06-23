@@ -20,7 +20,6 @@
  ediff-split-window-function 'split-window-horizontally
  ediff-window-setup-function 'ediff-setup-windows-plain
  indent-tabs-mode nil
- make-backup-files nil
  mouse-yank-at-point t
  save-interprogram-paste-before-kill t
  scroll-preserve-screen-position 'always
@@ -34,6 +33,16 @@
 (add-to-list 'minor-mode-alist '(case-fold-search " CFS"))
 ;; Toggle CFS func
 (defun toggle-case () (interactive) (setq case-fold-search (not case-fold-search)))
+
+;; file backups config
+(setq backup-directory-alist '(("." . "~/.backups_emacs"))
+  backup-by-copying t    ; Don't delink hardlinks
+  version-control t      ; Use version numbers on backups
+  delete-old-versions t  ; Automatically delete excess backups
+  kept-new-versions 20   ; how many of the newest versions to keep
+  kept-old-versions 5    ; and how many of the old
+  )
+
 
  ;;; A simple visible bell which works in all terminal types
 
@@ -49,6 +58,7 @@
 ;;; Newline behaviour
 
 (global-set-key (kbd "RET") 'newline-and-indent)
+
 (defun sanityinc/newline-at-end-of-line ()
   "Move to end of line, enter a newline, and reindent."
   (interactive)
