@@ -53,6 +53,7 @@
 (require 'init-frame-hooks)
 (require 'init-buffer-move)
 (require 'init-xterm)
+(require 'multi-term)
 (require 'init-osx-keys)
 (require 'init-gui-frames)
 (require 'init-dired)
