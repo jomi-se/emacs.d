@@ -48,6 +48,7 @@
 (require-package 'diminish)
 (require-package 'scratch)
 (require-package 'command-log-mode)
+(require-package 'bind-key)
 
 (require 'init-frame-hooks)
 (require 'init-xterm)
