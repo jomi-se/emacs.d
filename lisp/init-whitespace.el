@@ -24,5 +24,9 @@
 
 (global-set-key [remap just-one-space] 'cycle-spacing)
 
+(defun toggle-show-trailing-whitespace ()
+  "Toggle show-trailing-whitespace between t and nil"
+  (interactive)
+  (setq show-trailing-whitespace (not show-trailing-whitespace)))
 
 (provide 'init-whitespace)
