@@ -26,9 +26,6 @@
       (unless arg
         (select-window target-window)))))
 
-(global-set-key (kbd "C-x 2") (split-window-func-with-other-buffer 'split-window-vertically))
-(global-set-key (kbd "C-x 3") (split-window-func-with-other-buffer 'split-window-horizontally))
-
 (defun sanityinc/toggle-delete-other-windows ()
   "Delete other windows in frame if any, or restore previous window config."
   (interactive)
@@ -53,9 +50,6 @@
   (save-excursion
     (delete-other-windows)
     (funcall (split-window-func-with-other-buffer 'split-window-vertically))))
-
-(global-set-key (kbd "C-x |") 'split-window-horizontally-instead)
-(global-set-key (kbd "C-x _") 'split-window-vertically-instead)
 
 
 ;; Borrowed from http://postmomentum.ch/blog/201304/blog-on-emacs
@@ -91,5 +85,41 @@ Call a second time to restore the original window configuration."
 (unless (memq window-system '(nt w32))
   (windmove-default-keybindings 'control))
 
+
+(defun prev-window ()
+  (interactive)
+  (other-window -1))
+
+(bind-key* (kbd "C-;") 'other-window)
+(bind-key* (kbd "C-,") 'prev-window)
+
+
+;; Switch from horizontal split to vertical split
+(defun toggle-window-split ()
+  (interactive)
+  (if (= (count-windows) 2)
+      (let* ((this-win-buffer (window-buffer))
+         (next-win-buffer (window-buffer (next-window)))
+         (this-win-edges (window-edges (selected-window)))
+         (next-win-edges (window-edges (next-window)))
+         (this-win-2nd (not (and (<= (car this-win-edges)
+                     (car next-win-edges))
+                     (<= (cadr this-win-edges)
+                     (cadr next-win-edges)))))
+         (splitter
+          (if (= (car this-win-edges)
+             (car (window-edges (next-window))))
+          'split-window-horizontally
+        'split-window-vertically)))
+    (delete-other-windows)
+    (let ((first-win (selected-window)))
+      (funcall splitter)
+      (if this-win-2nd (other-window 1))
+      (set-window-buffer (selected-window) this-win-buffer)
+      (set-window-buffer (next-window) next-win-buffer)
+      (select-window first-win)
+      (if this-win-2nd (other-window 1))))))
+
+(bind-key* (kbd "C-x |") 'toggle-window-split)
 
 (provide 'init-windows)
