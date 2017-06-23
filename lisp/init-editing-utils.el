@@ -14,7 +14,7 @@
  blink-cursor-interval 0.4
  bookmark-default-file (expand-file-name ".bookmarks.el" user-emacs-directory)
  buffers-menu-max-size 30
- case-fold-search t
+ case-fold-search nil
  column-number-mode t
  delete-selection-mode t
  ediff-split-window-function 'split-window-horizontally
@@ -26,15 +26,14 @@
  scroll-preserve-screen-position 'always
  set-mark-command-repeat-pop t
  tooltip-delay 1.5
- truncate-lines nil
+ truncate-lines t
  truncate-partial-width-windows nil)
-
-(global-auto-revert-mode)
-(setq global-auto-revert-non-file-buffers t
-      auto-revert-verbose nil)
 
 (transient-mark-mode t)
 
+(add-to-list 'minor-mode-alist '(case-fold-search " CFS"))
+;; Toggle CFS func
+(defun toggle-case () (interactive) (setq case-fold-search (not case-fold-search)))
 
  ;;; A simple visible bell which works in all terminal types
 
