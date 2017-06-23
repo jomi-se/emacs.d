@@ -122,7 +122,7 @@
 (require 'init-common-lisp)
 
 (when *spell-check-support-enabled*
-  (require 'init-spelling))
+  (require 'init-flyspell))
 
 (require 'init-misc)
 
