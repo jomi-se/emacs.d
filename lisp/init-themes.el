@@ -1,5 +1,6 @@
 (require-package 'color-theme-sanityinc-solarized)
 (require-package 'color-theme-sanityinc-tomorrow)
+(download-perso-color-themes)
 
 ;; If you don't customize it, this is the theme you get.
 (setq-default custom-enabled-themes '(sanityinc-tomorrow-bright))
@@ -30,5 +31,18 @@
   (setq custom-enabled-themes '(sanityinc-tomorrow-bright))
   (reapply-themes))
 
+;;------------------------------------------------------------------------------
+;; Download some personal color themes and put them in
+;;------------------------------------------------------------------------------
+;; TODO: This should probably be done in a more generic way, but I
+;;       don't know how to do that in elisp
+(defvar perso-color-themes-path (expand-file-name "extra-color-themes" user-emacs-directory))
+
+(defun download-perso-color-themes ()
+  "Download some color themes I like"
+  (github-clone "jomi-se/hc-zenburn-emacs" perso-color-themes-path)
+  (add-to-list 'custom-theme-load-path (expand-file-name "hc-zenburn-emacs" perso-color-themes-path))
+  (github-clone "don9z/blackboard-theme" perso-color-themes-path)
+  (add-to-list 'custom-theme-load-path (expand-file-name "blackboard-theme" perso-color-themes-path)))
 
 (provide 'init-themes)

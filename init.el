@@ -51,7 +51,6 @@
 
 (require 'init-frame-hooks)
 (require 'init-xterm)
-(require 'init-themes)
 (require 'init-osx-keys)
 (require 'init-gui-frames)
 (require 'init-dired)
@@ -78,6 +77,8 @@
 (require 'init-darcs)
 (require 'init-git)
 (require 'init-github)
+
+(require 'init-themes)
 
 (require 'init-projectile)
 
