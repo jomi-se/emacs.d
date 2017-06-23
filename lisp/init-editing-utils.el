@@ -217,16 +217,10 @@ With a prefix argument, insert a newline above the current line."
 
 
 ;;----------------------------------------------------------------------------
-;; Rectangle selections, and overwrite text when the selection is active
-;;----------------------------------------------------------------------------
-(cua-selection-mode t)                  ; for rectangles, CUA is nice
-
-
-;;----------------------------------------------------------------------------
 ;; Handy key bindings
 ;;----------------------------------------------------------------------------
-(global-set-key (kbd "C-.") 'set-mark-command)
-(global-set-key (kbd "C-x C-.") 'pop-global-mark)
+;(global-set-key (kbd "C-.") 'set-mark-command)
+;(global-set-key (kbd "C-x C-.") 'pop-global-mark)
 
 (when (maybe-require-package 'avy)
   (global-set-key (kbd "C-;") 'avy-goto-char-timer))
