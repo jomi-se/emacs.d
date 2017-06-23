@@ -260,8 +260,6 @@ With a prefix argument, insert a newline above the current line."
 ;; use M-S-up and M-S-down, which will work even in lisp modes.
 ;;----------------------------------------------------------------------------
 (require-package 'move-dup)
-(global-set-key [M-up] 'md/move-lines-up)
-(global-set-key [M-down] 'md/move-lines-down)
 (global-set-key [M-S-up] 'md/move-lines-up)
 (global-set-key [M-S-down] 'md/move-lines-down)
 
@@ -351,6 +349,46 @@ With arg N, insert N newlines."
           (lambda ()
             (guide-key-mode 1)
             (diminish 'guide-key-mode)))
+
+
+(defun jomi-se/insert-pair-around-line (str)
+  (interactive "sSurrounding text: ")
+  (goto-char (line-beginning-position))
+  (insert str)
+  (end-of-line)
+  (insert str))
+
+(defun jomi-se/insert-pair-line-or-mark (str)
+  (interactive "sSurrounding text:")
+  (if (use-region-p)
+      (insert-pair 1 str str)
+    jomi-se/insert-pair-line-or-mark))
+
+;; Functions to increment/decrement decimal numbers (can be prefixed with C-u <number>)
+(defun jomi-se/increment-number-decimal (&optional arg)
+  "Increment the number forward from point by 'arg'."
+  (interactive "p*")
+  (save-excursion
+    (save-match-data
+      (let (inc-by field-width answer)
+        (setq inc-by (if arg arg 1))
+        (skip-chars-backward "0123456789")
+        (when (re-search-forward "[0-9]+" nil t)
+          (setq field-width (- (match-end 0) (match-beginning 0)))
+          (setq answer (+ (string-to-number (match-string 0) 10) inc-by))
+          (when (< answer 0)
+            (setq answer (+ (expt 10 field-width) answer)))
+          (replace-match (format (concat "%0" (int-to-string field-width) "d")
+                                 answer)))))))
+
+(defun jomi-se/decrement-number-decimal (&optional arg)
+  (interactive "p*")
+  (jomi-se/increment-number-decimal (if arg (- arg) -1)))
+
+;; set increment/decrement decimals func to C-c +/-
+(bind-key* (kbd "C-c +") 'my-increment-number-decimal)
+(bind-key* (kbd "C-c -") 'my-decrement-number-decimal)
+
 
 
 (provide 'init-editing-utils)
