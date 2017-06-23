@@ -5,4 +5,4 @@
   (add-hook 'plantuml-mode-hook
             (lambda () (local-set-key (kbd "<C-tab>") 'plantuml-complete-symbol))))
 
-(provide init-plantuml)
+(provide 'init-plantuml)

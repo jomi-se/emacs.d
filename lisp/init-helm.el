@@ -1,8 +1,12 @@
 (require-package 'helm)
-(require-package 'helm-config)
 (require-package 'helm-projectile)
 (require-package 'helm-xref)
 (require-package 'helm-gtags)
+(require 'helm)
+(require 'helm-projectile)
+(require 'helm-xref)
+(require 'helm-gtags)
+(require 'helm-config)
 
 (if (executable-find "ag")
     (require-package 'helm-ag)
@@ -99,8 +103,9 @@
 (add-hook 'c-mode-hook 'helm-gtags-mode)
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 
+(require 'helm-gtags)
 (bind-keys :map helm-gtags-mode-map
-           ("C-c g a" . helm-gtags-tags-in-this-function)
+;;           ("C-c g a" . helm-gtags-tags-in-this-function)
            ("M-." . helm-gtags-dwim)
            ("M-," . helm-gtags-pop-stack)
            ("C-c <" . helm-gtags-previous-history)
