@@ -15,6 +15,8 @@
 
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
+;; This is the equivalent of doing something like:
+;; redefine A = New-list-entry + (A - js-modes)
 (eval-when-compile (require 'cl))
 (setq auto-mode-alist (cons `("\\.\\(js\\|es6\\)\\(\\.erb\\)?\\'" . ,preferred-javascript-mode)
                             (loop for entry in auto-mode-alist
@@ -25,6 +27,7 @@
 ;; js2-mode
 
 ;; Change some defaults: customize them to override
+(setq js2-idle-timer-delay 2)
 (setq-default js2-basic-offset 2
               js2-bounce-indent-p nil)
 (after-load 'js2-mode
@@ -100,6 +103,25 @@
     (add-hook 'skewer-mode-hook
               (lambda () (inferior-js-keys-mode -1)))))
 
+;; ---------------------------------------------------------------------------
+;; flyspell setup for js2-mode (taken from bin chen)
+;; ---------------------------------------------------------------------------
+
+  (defun js-flyspell-verify ()
+    (let* ((f (get-text-property (- (point) 1) 'face)))
+      ;; *whitelist*
+      ;; only words with following font face will be checked
+      (memq f '(js2-function-call
+                js2-function-param
+                js2-object-property
+                font-lock-variable-name-face
+                font-lock-string-face
+                font-lock-function-name-face
+                font-lock-builtin-face
+                rjsx-tag
+                rjsx-attr))))
+  (put 'js2-mode 'flyspell-mode-predicate 'js-flyspell-verify)
+  ;; }}
 
 
 (when (maybe-require-package 'add-node-modules-path)
