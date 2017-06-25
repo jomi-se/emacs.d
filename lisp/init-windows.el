@@ -83,7 +83,10 @@ Call a second time to restore the original window configuration."
 
 
 (unless (memq window-system '(nt w32))
-  (windmove-default-keybindings 'control))
+  (bind-key* (kbd "M-S-<left>")  'windmove-left)
+  (bind-key* (kbd "M-S-<right>") 'windmove-right)
+  (bind-key* (kbd "M-S-<up>")    'windmove-up)
+  (bind-key* (kbd "M-S-<down>")  'windmove-down))
 
 
 (defun prev-window ()
