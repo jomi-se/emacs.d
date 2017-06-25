@@ -108,12 +108,12 @@ With a prefix argument, insert a newline above the current line."
 
 
 
-(when (require 'linum-off)
-  (add-to-list 'linum-disabled-modes-list 'term-mode)
-  (add-to-list 'linum-disabled-modes-list 'helm-mode)
-  (setq linum-disable-starred-buffers t)
-  (setq linum-disable-max-file-lines 4000)
-  (global-linum-mode t))
+(require 'linum-off)
+(add-to-list 'linum-disabled-modes-list 'term-mode)
+(add-to-list 'linum-disabled-modes-list 'helm-mode)
+(setq linum-disable-starred-buffers t)
+(setq linum-disable-max-file-lines 4000)
+(global-linum-mode t)
 
 
 (when (require-package 'rainbow-delimiters)
