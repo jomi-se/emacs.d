@@ -39,9 +39,11 @@
 
 (defun download-perso-color-themes ()
   "Download some color themes I like"
-  ;;(github-clone "jomi-se/hc-zenburn-emacs" perso-color-themes-path)
+  (unless (file-exists-p (expand-file-name "hc-zenburn-emacs" perso-color-themes-path))
+    (github-clone "jomi-se/hc-zenburn-emacs" perso-color-themes-path))
   (add-to-list 'custom-theme-load-path (expand-file-name "hc-zenburn-emacs" perso-color-themes-path))
-  ;;(github-clone "don9z/blackboard-theme" perso-color-themes-path)
+  (unless (file-exists-p (expand-file-name "blackboard-theme" perso-color-themes-path))
+    (github-clone "don9z/blackboard-theme" perso-color-themes-path))
   (add-to-list 'custom-theme-load-path (expand-file-name "blackboard-theme" perso-color-themes-path)))
 
 (download-perso-color-themes)
