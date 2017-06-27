@@ -86,8 +86,8 @@
 With a prefix argument, insert a newline above the current line."
   (interactive "P")
   (if abovep
-      (vi-open-line-above)
-    (vi-open-line-below)))
+      (jomi-se/vi-open-line-above)
+    (jomi-se/vi-open-line-below)))
 
 (global-set-key (kbd "C-<return>") 'jomi-se/vi-open-line)
 (global-set-key (kbd "C-S-<return>") 'jomi-se/vi-open-line-above)
@@ -169,7 +169,9 @@ With a prefix argument, insert a newline above the current line."
         (jomi-se/highlight-and-search-prev)
       (jomi-se/highlight-and-search-next)))
   (bind-key* (kbd "C-*") 'jomi-se/emulate-vim-search-symbol-at-point)
-  (bind-key* (kbd "C-S-*") 'jomi-se/highlight-and-search-prev))
+  (bind-key* (kbd "C-S-*") 'jomi-se/highlight-and-search-prev)
+
+  (require 'highlight-symbol))
 
 ;;----------------------------------------------------------------------------
 ;; Zap *up* to char is a handy pair for zap-to-char
