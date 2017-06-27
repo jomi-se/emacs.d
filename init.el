@@ -126,6 +126,7 @@
 (when *spell-check-support-enabled*
   (require 'init-flyspell))
 
+(require 'init-yasnippet)
 (require 'init-misc)
 
 (require 'init-folding)
