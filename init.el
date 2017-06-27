@@ -84,8 +84,8 @@
 
 (require 'init-themes)
 
-(require 'init-projectile)
 (require 'init-helm)
+(require 'init-projectile)
 
 (require 'init-compile)
 ;;(require 'init-crontab)
