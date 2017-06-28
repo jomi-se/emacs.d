@@ -76,7 +76,8 @@
       helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
       helm-ff-file-name-history-use-recentf t
-      helm-echo-input-in-header-line 	    t)
+      helm-echo-input-in-header-line        t
+      helm-ff-newfile-prompt-p              nil)
 
 ;; Use this to toggle opening helm buffer inside current window, not occupy whole other window
 (defun my-toggle-helm-use-whole-frame-when-in-split-window ()
