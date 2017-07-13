@@ -392,6 +392,6 @@ With arg N, insert N newlines."
 (bind-key* (kbd "C-c +") 'my-increment-number-decimal)
 (bind-key* (kbd "C-c -") 'my-decrement-number-decimal)
 
-
+(bind-key* (kbd "<backtab>") 'indent-relative)
 
 (provide 'init-editing-utils)
