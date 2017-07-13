@@ -23,33 +23,61 @@
                                   unless (eq preferred-javascript-mode (cdr entry))
                                   collect entry)))
 
-
+(require 'flycheck)
 ;; js2-mode
 
 ;; Change some defaults: customize them to override
-(setq js2-idle-timer-delay 2)
+(setq js2-idle-timer-delay 1)
 (setq-default js2-basic-offset 2
               js2-bounce-indent-p nil)
+(flycheck-add-mode 'javascript-eslint 'js2-mode)
+(flycheck-add-mode 'javascript-eslint 'js-mode)
+(setq-default flycheck-disabled-checkers
+              (append flycheck-disabled-checkers
+                      '(javascript-jshint)))
+
+;; use local eslint from node_modules before global
+;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
+(defun my/use-eslint-from-node-modules ()
+  "Use eslint from local node_modules if availables."
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
+(require 'js2-mode)
+
+;; Disable js2 mode's syntax error highlighting by default...
+(setq-default js2-mode-show-parse-errors nil
+              js2-mode-show-strict-warnings nil)
+(defun setup-js2-mode ()
+  (my/use-eslint-from-node-modules)
+  (flycheck-mode t)
+  ;; eslint gets added to flycheck-disabled-checkers by default on this config.
+  (flycheck-disable-checker 'javascript-eslint t))
+(add-hook 'js2-mode-hook 'setup-js2-mode)
+;; ... but enable it if flycheck can't handle javascript
+;; (autoload 'flycheck-get-checker-for-buffer "flycheck")
+;; (defun sanityinc/disable-js2-checks-if-flycheck-active ()
+;;   (unless (flycheck-get-checker-for-buffer)
+;;     (set (make-local-variable 'js2-mode-show-parse-errors) t)
+;;     (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
+;; (add-hook 'js2-mode-hook 'sanityinc/disable-js2-checks-if-flycheck-active)
+
+(add-hook 'js2-mode-hook (lambda () (setq mode-name "JS2")))
+
 (after-load 'js2-mode
-  ;; Disable js2 mode's syntax error highlighting by default...
-  (setq-default js2-mode-show-parse-errors nil
-                js2-mode-show-strict-warnings nil)
-  ;; ... but enable it if flycheck can't handle javascript
-  (autoload 'flycheck-get-checker-for-buffer "flycheck")
-  (defun sanityinc/disable-js2-checks-if-flycheck-active ()
-    (unless (flycheck-get-checker-for-buffer)
-      (set (make-local-variable 'js2-mode-show-parse-errors) t)
-      (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
-  (add-hook 'js2-mode-hook 'sanityinc/disable-js2-checks-if-flycheck-active)
-
-  (add-hook 'js2-mode-hook (lambda () (setq mode-name "JS2")))
-
-  (after-load 'js2-mode
-    (js2-imenu-extras-setup)))
+  (js2-imenu-extras-setup))
 
 ;; js-mode
 (setq-default js-indent-level preferred-javascript-indent-level)
 
+(add-hook 'js2-mode 'js2-jsx-mode)
 
 (add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
 
@@ -129,16 +157,18 @@
 (require-package 'company-tern)
 (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
 
+
+
 (after-load 'company
   (add-hook 'js2-mode-hook
             (lambda () (sanityinc/local-push-company-backend 'company-tern))))
 
 
-(when (maybe-require-package 'add-node-modules-path)
-  (after-load 'typescript-mode
-    (add-hook 'typescript-mode-hook 'add-node-modules-path))
-  (after-load 'js2-mode
-    (add-hook 'js2-mode-hook 'add-node-modules-path)))
+;; (when (maybe-require-package 'add-node-modules-path)
+;;   (after-load 'typescript-mode
+;;     (add-hook 'typescript-mode-hook 'add-node-modules-path))
+;;   (after-load 'js2-mode
+;;     (add-hook 'js2-mode-hook 'add-node-modules-path)))
 
 
 (provide 'init-javascript)

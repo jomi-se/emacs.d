@@ -86,9 +86,8 @@
   (setq helm-split-window-in-side-p (not helm-split-window-in-side-p)))
 
 (with-eval-after-load 'helm-semantic
-      (push '(c-mode . semantic-format-tag-summarize) helm-semantic-display-style)
-      (push '(c++-mode . semantic-format-tag-summarize) helm-semantic-display-style)
-      (push '(js2-mode . semantic-format-tag-summarize) helm-semantic-display-style))
+  (push '(c-mode . semantic-format-tag-summarize) helm-semantic-display-style)
+  (push '(c++-mode . semantic-format-tag-summarize) helm-semantic-display-style))
 
 (setq helm-autoresize-max-height 0)
 (setq helm-autoresize-min-height 40)
