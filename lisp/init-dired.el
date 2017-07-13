@@ -15,6 +15,8 @@
     (global-dired-hide-details-mode -1))
   (setq dired-recursive-deletes 'top)
   (define-key dired-mode-map [mouse-2] 'dired-find-file)
+  (bind-keys :map dired-mode-map
+             (")" . diredp-up-directory))
   (add-hook 'dired-mode-hook
             (lambda () (guide-key/add-local-guide-key-sequence "%"))))
 
