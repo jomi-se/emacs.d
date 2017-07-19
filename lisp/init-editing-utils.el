@@ -44,7 +44,10 @@
       )
 
 ;; file autosave config
-(setq auto-save-file-name-transforms '((".*" "~/.autosaves_emacs")))
+(setq auto-save-default t)
+(defconst autosaves-dir (expand-file-name "~/.autosaves_emacs/"))
+(setq auto-save-file-name-transforms `((".*" ,autosaves-dir t)))
+
 ;; Disable locking files
 (setq create-lockfiles nil)
 
