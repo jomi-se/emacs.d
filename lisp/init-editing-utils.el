@@ -36,13 +36,15 @@
 
 ;; file backups config
 (setq backup-directory-alist '(("." . "~/.backups_emacs"))
-  backup-by-copying t    ; Don't delink hardlinks
-  version-control t      ; Use version numbers on backups
-  delete-old-versions t  ; Automatically delete excess backups
-  kept-new-versions 20   ; how many of the newest versions to keep
-  kept-old-versions 5    ; and how many of the old
-  )
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t  ; Automatically delete excess backups
+      kept-new-versions 20   ; how many of the newest versions to keep
+      kept-old-versions 5    ; and how many of the old
+      )
 
+;; file autosave config
+(setq auto-save-file-name-transforms '((".*" "~/.autosaves_emacs")))
 
  ;;; A simple visible bell which works in all terminal types
 
