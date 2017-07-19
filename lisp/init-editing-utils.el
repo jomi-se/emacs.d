@@ -45,6 +45,8 @@
 
 ;; file autosave config
 (setq auto-save-file-name-transforms '((".*" "~/.autosaves_emacs")))
+;; Disable locking files
+(setq create-lockfiles nil)
 
  ;;; A simple visible bell which works in all terminal types
 
