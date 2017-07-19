@@ -49,3 +49,5 @@ site-lisp/package/
 /.uptimes.el
 /rake.cache
 /plantuml.jar
+extra-color-themes/
+yasnippet-snippets/
