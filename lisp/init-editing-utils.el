@@ -254,7 +254,7 @@ With a prefix argument, insert a newline above the current line."
     (back-to-indentation)
     (kill-region (point) prev-pos)))
 
-(global-set-key (kbd "C-M-<backspace>") 'kill-back-to-indentation)
+(bind-key* "C-M-<backspace>" 'kill-back-to-indentation)
 
 
 ;;----------------------------------------------------------------------------
