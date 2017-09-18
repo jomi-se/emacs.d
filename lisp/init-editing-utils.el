@@ -396,8 +396,8 @@ With arg N, insert N newlines."
   (jomi-se/increment-number-decimal (if arg (- arg) -1)))
 
 ;; set increment/decrement decimals func to C-c +/-
-(bind-key* (kbd "C-c +") 'my-increment-number-decimal)
-(bind-key* (kbd "C-c -") 'my-decrement-number-decimal)
+(bind-key* (kbd "C-c +") 'jomi-se/increment-number-decimal)
+(bind-key* (kbd "C-c -") 'jomi-se/decrement-number-decimal)
 
 (bind-key* (kbd "<backtab>") 'indent-relative)
 
