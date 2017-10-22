@@ -81,7 +81,7 @@
 
 ;; Use this to toggle opening helm buffer inside current window, not occupy whole other window
 (defun my-toggle-helm-use-whole-frame-when-in-split-window ()
-  "Toggle helm-split-window-in-side-p between t and nil"
+  "Toggle helm-split-window-in-side-p between t and nil."
   (interactive)
   (setq helm-split-window-in-side-p (not helm-split-window-in-side-p)))
 
@@ -120,3 +120,4 @@
 (helm-mode 1)
 
 (provide 'init-helm)
+;;; init-helm.el ends here
