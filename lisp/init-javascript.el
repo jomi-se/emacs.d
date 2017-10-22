@@ -3,6 +3,7 @@
 (maybe-require-package 'coffee-mode)
 (maybe-require-package 'typescript-mode)
 (maybe-require-package 'prettier-js)
+(maybe-require-package 'rjsx-mode)
 
 (defcustom preferred-javascript-mode
   (first (remove-if-not #'fboundp '(js2-mode js-mode)))
@@ -77,7 +78,7 @@
 ;; js-mode
 (setq-default js-indent-level preferred-javascript-indent-level)
 
-(add-hook 'js2-mode 'js2-jsx-mode)
+(add-hook 'js2-mode 'rjsx-mode)
 
 (add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
 
