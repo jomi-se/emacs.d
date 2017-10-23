@@ -5,6 +5,10 @@
                               (require 'slime)
                               (normal-mode))))
 
+(load (expand-file-name "~/quicklisp/slime-helper.el]"))
+;; Replace "sbcl" with the path to your implementation
+(setq inferior-lisp-program "sbcl")
+
 (after-load 'slime
   (when (executable-find "sbcl")
     (add-to-list 'slime-lisp-implementations
