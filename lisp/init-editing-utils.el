@@ -1,9 +1,9 @@
 (require-package 'unfill)
 
 (when (fboundp 'electric-pair-mode)
-  (electric-pair-mode))
+  (add-hook 'after-init-hook 'electric-pair-mode))
 (when (eval-when-compile (version< "24.4" emacs-version))
-  (electric-indent-mode 1))
+  (add-hook 'after-init-hook 'electric-indent-mode))
 
 (maybe-require-package 'list-unicode-display)
 
@@ -28,7 +28,11 @@
  truncate-lines t
  truncate-partial-width-windows nil)
 
-(transient-mark-mode t)
+(add-hook 'after-init-hook 'global-auto-revert-mode)
+(setq global-auto-revert-non-file-buffers t
+      auto-revert-verbose nil)
+
+(add-hook 'after-init-hook 'transient-mark-mode)
 
 (add-to-list 'minor-mode-alist '(case-fold-search " CFS"))
 ;; Toggle CFS func
@@ -51,6 +55,9 @@
 ;; Disable locking files
 (setq create-lockfiles nil)
 
+(when (maybe-require-package 'dynamic-spaces)
+  (dynamic-spaces-global-mode))
+
  ;;; A simple visible bell which works in all terminal types
 
 (defun sanityinc/flash-mode-line ()
@@ -59,6 +66,13 @@
 
 (setq-default
  ring-bell-function 'sanityinc/flash-mode-line)
+
+
+
+(when (maybe-require-package 'beacon)
+  (setq-default beacon-lighter "")
+  (setq-default beacon-size 5)
+  (add-hook 'after-init-hook 'beacon-mode))
 
 
 
@@ -101,10 +115,8 @@ With a prefix argument, insert a newline above the current line."
 
 
 
-(when (eval-when-compile (string< "24.3.1" emacs-version))
-  ;; https://github.com/purcell/emacs.d/issues/138
-  (after-load 'subword
-    (diminish 'subword-mode)))
+(after-load 'subword
+  (diminish 'subword-mode))
 
 
 
@@ -116,12 +128,12 @@ With a prefix argument, insert a newline above the current line."
 
 
 (add-hook 'after-init-hook (lambda ()
-                            (global-linum-mode t)
-                            (require 'linum-off)
-                            (add-to-list 'linum-disabled-modes-list 'term-mode)
-                            (add-to-list 'linum-disabled-modes-list 'helm-mode)
-                            (setq linum-disable-starred-buffers t)
-                            (setq linum-disable-max-file-lines 4000)))
+                             (global-linum-mode t)
+                             (require 'linum-off)
+                             (add-to-list 'linum-disabled-modes-list 'term-mode)
+                             (add-to-list 'linum-disabled-modes-list 'helm-mode)
+                             (setq linum-disable-starred-buffers t)
+                             (setq linum-disable-max-file-lines 4000)))
 
 
 (when (require-package 'rainbow-delimiters)
@@ -130,12 +142,13 @@ With a prefix argument, insert a newline above the current line."
 
 
 (when (fboundp 'global-prettify-symbols-mode)
-  (global-prettify-symbols-mode))
+  (add-hook 'after-init-hook 'global-prettify-symbols-mode))
 
 
 (require-package 'undo-tree)
-(global-undo-tree-mode)
-(diminish 'undo-tree-mode)
+(add-hook 'after-init-hook 'global-undo-tree-mode)
+(after-load 'undo-tree
+  (diminish 'undo-tree-mode))
 
 
 (when (maybe-require-package 'symbol-overlay)
@@ -210,7 +223,7 @@ With a prefix argument, insert a newline above the current line."
 ;;----------------------------------------------------------------------------
 ;; Show matching parens
 ;;----------------------------------------------------------------------------
-(show-paren-mode 1)
+(add-hook 'after-init-hook 'show-paren-mode)
 
 ;;----------------------------------------------------------------------------
 ;; Expand region
@@ -229,8 +242,8 @@ With a prefix argument, insert a newline above the current line."
 ;;----------------------------------------------------------------------------
 ;; Handy key bindings
 ;;----------------------------------------------------------------------------
-;(global-set-key (kbd "C-.") 'set-mark-command)
-;(global-set-key (kbd "C-x C-.") 'pop-global-mark)
+                                        ;(global-set-key (kbd "C-.") 'set-mark-command)
+                                        ;(global-set-key (kbd "C-x C-.") 'pop-global-mark)
 
 (when (maybe-require-package 'avy)
   (global-set-key (kbd "C-;") 'avy-goto-char-timer))
@@ -260,9 +273,10 @@ With a prefix argument, insert a newline above the current line."
 ;;----------------------------------------------------------------------------
 ;; Page break lines
 ;;----------------------------------------------------------------------------
-(require-package 'page-break-lines)
-(global-page-break-lines-mode)
-(diminish 'page-break-lines-mode)
+(when (maybe-require-package 'page-break-lines)
+  (add-hook 'after-init-hook 'global-page-break-lines-mode)
+  (after-load 'page-break-lines
+    (diminish 'page-break-lines-mode)))
 
 ;;----------------------------------------------------------------------------
 ;; Shift lines up and down with M-up and M-down. When paredit is enabled,
@@ -274,7 +288,7 @@ With a prefix argument, insert a newline above the current line."
 (global-set-key [M-S-down] 'md/move-lines-down)
 
 (global-set-key (kbd "C-c d") 'md/duplicate-down)
-(global-set-key (kbd "C-c D") 'md/duplicate-up)
+(global-set-key (kbd "C-c u") 'md/duplicate-up)
 
 ;;----------------------------------------------------------------------------
 ;; Fix backward-up-list to understand quotes, see http://bit.ly/h7mdIL
@@ -295,9 +309,9 @@ With a prefix argument, insert a newline above the current line."
 ;; Cut/copy the current line if no region is active
 ;;----------------------------------------------------------------------------
 (require-package 'whole-line-or-region)
-(whole-line-or-region-mode t)
-(diminish 'whole-line-or-region-mode)
-(make-variable-buffer-local 'whole-line-or-region-mode)
+(add-hook 'after-init-hook 'whole-line-or-region-mode)
+(after-load 'whole-line-or-region
+  (diminish 'whole-line-or-region-mode))
 
 
 
@@ -350,15 +364,14 @@ With arg N, insert N newlines."
 
 
 (require-package 'highlight-escape-sequences)
-(hes-mode)
+(add-hook 'after-init-hook 'hes-mode)
 
 
 (require-package 'guide-key)
 (setq guide-key/guide-key-sequence '("C-x" "C-c" "C-x 4" "C-x 5" "C-c ;" "C-c ; f" "C-c ' f" "C-x n" "C-x C-r" "C-x r" "M-s" "C-h" "C-c C-a"))
-(add-hook 'after-init-hook
-          (lambda ()
-            (guide-key-mode 1)
-            (diminish 'guide-key-mode)))
+(add-hook 'after-init-hook 'guide-key-mode)
+(after-load 'guide-key
+  (diminish 'guide-key-mode))
 
 
 (defun jomi-se/insert-pair-around-line (str)
