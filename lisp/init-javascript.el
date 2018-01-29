@@ -37,18 +37,17 @@
               (append flycheck-disabled-checkers
                       '(javascript-jshint)))
 
-;; use local eslint from node_modules before global
-;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
 (defun my/use-eslint-from-node-modules ()
-  "Use eslint from local node_modules if availables."
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint (and root
-                      (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root))))
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
+  ;; use local eslint from node_modules before global
+  ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
+  (let ((root (locate-dominating-file
+               (or (buffer-file-name) default-directory)
+               (lambda (dir)
+                 (let ((eslint (expand-file-name "node_modules/eslint/bin/eslint.js" dir)))
+                   (and eslint (file-executable-p eslint)))))))
+    (when root
+      (let ((eslint (expand-file-name "node_modules/eslint/bin/eslint.js" root)))
+        (setq-local flycheck-javascript-eslint-executable eslint)))))
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
 (require 'js2-mode)
@@ -77,8 +76,6 @@
 
 ;; js-mode
 (setq-default js-indent-level preferred-javascript-indent-level)
-
-(add-hook 'js2-mode 'rjsx-mode)
 
 (add-to-list 'interpreter-mode-alist (cons "node" preferred-javascript-mode))
 
