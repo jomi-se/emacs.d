@@ -4,6 +4,8 @@
 (maybe-require-package 'typescript-mode)
 (maybe-require-package 'prettier-js)
 (maybe-require-package 'rjsx-mode)
+(maybe-require-package 'add-node-modules-path)
+
 
 (defcustom preferred-javascript-mode
   (first (remove-if-not #'fboundp '(js2-mode js-mode)))
@@ -160,6 +162,14 @@
 (after-load 'company
   (add-hook 'js2-mode-hook
             (lambda () (sanityinc/local-push-company-backend 'company-tern))))
+
+
+;; Prettier
+(defun setup-prettier ()
+  (setq prettier-js-args '("--write" ""))
+  (prettier-js-mode t))
+(add-hook 'js2-mode-hook #'add-node-modules-path)
+(add-hook 'js2-mode-hook 'setup-prettier)
 
 
 ;; (when (maybe-require-package 'add-node-modules-path)
