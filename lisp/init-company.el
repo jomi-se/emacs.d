@@ -17,10 +17,10 @@
     (define-key company-mode-map (kbd "<C-tab>") 'company-complete)
     (define-key company-active-map (kbd "M-/") 'company-select-next)
     (define-key company-active-map (kbd "<C-tab>") 'company-select-next)
+    (define-key company-active-map (kbd "M-/") 'company-other-backend)
     (define-key company-active-map (kbd "C-n") 'company-select-next)
     (define-key company-active-map (kbd "C-p") 'company-select-previous)
-    (setq-default company-backends '((company-capf company-dabbrev-code) company-dabbrev)
-                  company-dabbrev-other-buffers 'all
+    (setq-default company-dabbrev-other-buffers 'all
                   company-tooltip-align-annotations t))
   (global-set-key (kbd "M-C-/") 'company-complete)
   (when (maybe-require-package 'company-quickhelp)
@@ -34,7 +34,7 @@
 ;; Suspend page-break-lines-mode while company menu is active
 ;; (see https://github.com/company-mode/company-mode/issues/416)
 (after-load 'company
-  (after-load 'page-break-lines-mode
+  (after-load 'page-break-lines
     (defvar sanityinc/page-break-lines-on-p nil)
     (make-variable-buffer-local 'sanityinc/page-break-lines-on-p)
 
