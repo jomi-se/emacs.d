@@ -1,5 +1,5 @@
 ;; -*- lexical-binding: t -*-
-(setq debug-on-error t)
+(setq debug-on-error nil)
 
 ;;; This file bootstraps the configuration, which is divided into
 ;;; a number of other files.
@@ -79,7 +79,7 @@
 (require 'init-vc)
 (require 'init-darcs)
 (require 'init-git)
-(require 'init-github)
+;;(require 'init-github)
                                         ;(require 'init-p4)
 
 (require 'init-themes)
@@ -102,12 +102,8 @@
 (require 'init-css)
 (require 'init-haml)
 (require 'init-http)
-<<<<<<< HEAD
-(require 'init-python-mode)
-(require 'init-plantuml)
-=======
 (require 'init-python)
->>>>>>> master
+(require 'init-plantuml)
 (require 'init-haskell)
 (require 'init-elm)
 (require 'init-purescript)
