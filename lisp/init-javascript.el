@@ -58,10 +58,8 @@
 (setq-default js2-mode-show-parse-errors nil
               js2-mode-show-strict-warnings nil)
 (defun setup-js2-mode ()
-  (my/use-eslint-from-node-modules)
-  (flycheck-mode t)
-  ;; eslint gets added to flycheck-disabled-checkers by default on this config.
-  (flycheck-disable-checker 'javascript-eslint t))
+  (flycheck-mode)
+  (my/use-eslint-from-node-modules))
 (add-hook 'js2-mode-hook 'setup-js2-mode)
 ;; ... but enable it if flycheck can't handle javascript
 ;; (autoload 'flycheck-get-checker-for-buffer "flycheck")
@@ -168,8 +166,10 @@
 (defun setup-prettier ()
   (setq prettier-js-args '("--write" ""))
   (prettier-js-mode t))
-(add-hook 'js2-mode-hook #'add-node-modules-path)
-(add-hook 'js2-mode-hook 'setup-prettier)
+;; (eval-after-load 'js2-mode
+;;   '(add-hook 'js2-mode-hook #'add-node-modules-path))
+;; (after-load 'js2-mode
+;;   (add-hook 'js2-mode-hook 'setup-prettier))
 
 
 ;; (when (maybe-require-package 'add-node-modules-path)
