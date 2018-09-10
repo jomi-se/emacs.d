@@ -135,7 +135,7 @@ Call a second time to restore the original window configuration."
       (if this-win-2nd (other-window 1))))))
 
 (bind-key* (kbd "C-x |") 'toggle-window-split)
-(when (and *is-a-mac* (foundp 'mac-next-tab-or-toggle-tab-bar))
+(when (and *is-a-mac* (fboundp 'mac-next-tab-or-toggle-tab-bar))
   (bind-key* (kbd "M-§") 'mac-next-tab-or-toggle-tab-bar))
 
 (provide 'init-windows)
