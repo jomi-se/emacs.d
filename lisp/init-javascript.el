@@ -2,6 +2,7 @@
 (maybe-require-package 'js2-mode)
 (maybe-require-package 'coffee-mode)
 (maybe-require-package 'typescript-mode)
+(maybe-require-package 'tide)
 (maybe-require-package 'prettier-js)
 (maybe-require-package 'rjsx-mode)
 (maybe-require-package 'add-node-modules-path)
@@ -178,5 +179,12 @@
 ;;   (after-load 'js2-mode
 ;;     (add-hook 'js2-mode-hook 'add-node-modules-path)))
 
+
+
+;; Typescript
+(after-load 'typescript-mode
+  (setq typescript-indent-level preferred-javascript-indent-level))
+
+(add-hook 'typescript-mode-hook 'tide-setup)
 
 (provide 'init-javascript)
