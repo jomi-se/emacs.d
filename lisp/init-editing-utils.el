@@ -421,4 +421,21 @@ With arg N, insert N newlines."
 
 (bind-key* (kbd "<backtab>") 'indent-relative)
 
+(defun my/json-flatten-object-one-level (begin end)
+  "(my/json-flatten-object-one-level BEGIN END) Pretty-print selected region but only one level."
+  (interactive "r")
+  (let ((json-object-type 'alist)
+        (txt (delete-and-extract-region begin end)))
+    (insert (format "{\n%s\n}"
+                    (mapconcat
+                     'identity
+                     (mapcar
+                      (lambda (cons)
+                        (format
+                         "%s: %s"
+                         (json-encode-key (car cons))
+                         (json-encode (cdr cons))))
+                      (json-read-from-string txt))
+                     ",\n")))))
+
 (provide 'init-editing-utils)
