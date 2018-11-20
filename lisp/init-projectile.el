@@ -16,6 +16,7 @@
 
 (projectile-mode 1)
 
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 (setq projectile-enable-caching t
       projectile-indexing-method 'alien)
