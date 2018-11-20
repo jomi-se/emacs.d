@@ -439,4 +439,7 @@ With arg N, insert N newlines."
                       (json-read-from-string txt))
                      ",\n")))))
 
+;; Consider CamelCase chunks as words :o
+(global-subword-mode 1)
+
 (provide 'init-editing-utils)
