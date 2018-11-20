@@ -52,3 +52,5 @@ site-lisp/package/
 extra-color-themes/
 yasnippet-snippets/
 /magithub
+/emojis
+/semanticdb
