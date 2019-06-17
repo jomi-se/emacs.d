@@ -64,6 +64,7 @@
 (global-set-key (kbd "C-h <SPC>") 'helm-all-mark-rings)
 (bind-key* (kbd "C-x b") 'helm-mini)
 (bind-key* (kbd "C-x C-f") 'helm-find-files)
+(bind-key* (kbd "C-c p s b") 'helm-ag-pop-stack)
 
 (when (executable-find "curl")
   (setq helm-net-prefer-curl t))
