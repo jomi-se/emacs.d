@@ -61,6 +61,19 @@
       (rename-buffer new-name))))
 
 ;;----------------------------------------------------------------------------
+;; Show and copy current file full path
+;;----------------------------------------------------------------------------
+((defun show-and-copy-buffer-file-name ()
+  "Show and copy the full path to the current file in the minibuffer."
+  (interactive)
+  (let ((file-name (buffer-file-name)))
+    (if file-name
+        (progn
+          (message file-name)
+          (kill-new file-name))
+      (error "Buffer not visiting a file"))))
+
+;;----------------------------------------------------------------------------
 ;; Browse current HTML file
 ;;----------------------------------------------------------------------------
 (defun browse-current-file ()
