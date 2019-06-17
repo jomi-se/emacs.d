@@ -6,6 +6,7 @@
 (maybe-require-package 'prettier-js)
 (maybe-require-package 'rjsx-mode)
 (maybe-require-package 'add-node-modules-path)
+(maybe-require-package 'web-mode)
 
 
 (defcustom preferred-javascript-mode
@@ -185,6 +186,39 @@
 (after-load 'typescript-mode
   (setq typescript-indent-level preferred-javascript-indent-level))
 
-(add-hook 'typescript-mode-hook 'tide-setup)
+(defun my/use-tslint-from-node-modules ()
+  ;; use local tslint from node_modules before global
+  ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-tslint-executable
+  (let ((root (locate-dominating-file
+               (or (buffer-file-name) default-directory)
+               (lambda (dir)
+                 (let ((tslint (expand-file-name "node_modules/tslint/bin/tslint" dir)))
+                   (and tslint (file-executable-p tslint)))))))
+    (when root
+      (let ((tslint (expand-file-name "node_modules/tslint/bin/tslint" root)))
+        (setq-local flycheck-typescript-tslint-executable tslint)))))
+
+(add-hook 'flycheck-mode-hook #'my/use-tslint-from-node-modules)
+(flycheck-add-mode 'typescript-tslint 'web-mode)
+
+(defun setup-tide-mode ()
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (my/use-tslint-from-node-modules))
+
+(flycheck-add-mode 'typescript-tslint 'typescript-mode)
+(add-hook 'typescript-mode-hook 'setup-tide-mode)
+
+
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+;; enable typescript-tslint checker
+(flycheck-add-mode 'typescript-tslint 'web-mode)
 
 (provide 'init-javascript)
