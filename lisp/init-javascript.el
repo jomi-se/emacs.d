@@ -165,8 +165,10 @@
 
 
 ;; Prettier
-(defun setup-prettier ()
+(defun start-prettier ()
+  "Start prettier and use node-modules version"
   (setq prettier-js-args '("--write" ""))
+  (add-node-modules-path)
   (prettier-js-mode t))
 ;; (eval-after-load 'js2-mode
 ;;   '(add-hook 'js2-mode-hook #'add-node-modules-path))
@@ -211,7 +213,10 @@
 
 (flycheck-add-mode 'typescript-tslint 'typescript-mode)
 (add-hook 'typescript-mode-hook 'setup-tide-mode)
-
+(eval-after-load 'typescript-mode
+  '(progn
+     (add-hook 'typescript-mode-hook #'add-node-modules-path)
+     (add-hook 'typescript-mode-hook #'prettier-js-mode)))
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (add-hook 'web-mode-hook
