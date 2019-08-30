@@ -439,6 +439,12 @@ With arg N, insert N newlines."
                       (json-read-from-string txt))
                      ",\n")))))
 
+(defun my/json-flatten-object-one-level (begin end)
+  "(my/json-flatten-object-one-level BEGIN END) Pretty-print selected region but only one level."
+  (interactive "r")
+  (let ((json-pretty-print-max-indentation-level 1))
+    (json-pretty-print begin end)))
+
 ;; Consider CamelCase chunks as words :o
 (global-subword-mode 1)
 
