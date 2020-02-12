@@ -97,6 +97,8 @@ typical word processor."
 
 ;;(add-hook 'org-mode-hook 'buffer-face-mode)
 
+(add-hook 'org-mode-hook 'visual-line-mode)
+
 
 (setq org-support-shift-select t)
 
