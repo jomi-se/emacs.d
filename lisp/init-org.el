@@ -104,6 +104,7 @@ typical word processor."
 ;;; Capturing
 
 (global-set-key (kbd "C-c c") 'org-capture)
+(setq org-default-notes-file "~/.notes.org")
 
 (setq org-capture-templates
       `(("t" "todo" entry (file "")  ; "" => `org-default-notes-file'
@@ -173,6 +174,8 @@ typical word processor."
 
 (setq-default org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
 
+(setq org-agenda-files
+      (list "~/Documents/Org/Perso" "~/Documents/Org/Platform" "~/Documents/Org/Notes"))
 
 (let ((active-project-match "-INBOX/PROJECT"))
 
@@ -322,16 +325,18 @@ typical word processor."
 
 ;;; Links
 
-(defun my/org-insert-jira-link (ticket-id)
-  "Insert \"org-mode\" link to jira ticket with id TICKET-ID."
-  (interactive "sEnter Jira Ticket id")
+(defun dashlane/org-insert-jira-link (ticket-id)
+  "Insert \"org-mode\" link to Dashlane jira ticket with id TICKET-ID."
+  (interactive "sEnter Dashlane Jira Ticket id: ")
   (org-insert-link
    (concat "https://jira.dashlane.com/browse/" ticket-id)
    (concat "https://jira.dashlane.com/browse/" ticket-id)
    ticket-id))
-(define-key global-map (kbd "C-c l") 'org-store-link)
-(define-key org-mode-map (kbd "C-c j") 'my/org-insert-jira-link)
 
+
+(define-key global-map (kbd "C-c l") 'org-store-link)
+(after-load 'org-mode
+  (define-key org-mode-map (kbd "C-c j") 'dashlane/org-insert-jira-link))
 
 
 (require-package 'org-pomodoro)
