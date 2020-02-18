@@ -122,7 +122,7 @@
 (require 'init-slime)
 (require 'init-clojure)
 (require 'init-clojure-cider)
-(require 'init-common-lisp)
+;; (require 'init-common-lisp)
 
 (when *spell-check-support-enabled*
   (require 'init-flyspell))
@@ -134,7 +134,6 @@
 (require 'init-dash)
 
 (require 'init-go)
-(require 'init-payfit)
 
 ;;(require 'init-twitter)
 ;; (require 'init-mu)
