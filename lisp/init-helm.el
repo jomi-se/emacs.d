@@ -118,6 +118,14 @@
 
 (setq xref-show-xrefs-function 'helm-xref-show-xrefs)
 
+;; https://github.com/emacs-helm/helm/issues/2175 To switch between sources
+(define-key helm-map (kbd "<left>") 'helm-previous-source)
+(define-key helm-map (kbd "<right>") 'helm-next-source)
+(customize-set-variable 'helm-ff-lynx-style-map t)
+(customize-set-variable 'helm-imenu-lynx-style-map t)
+(customize-set-variable 'helm-semantic-lynx-style-map t)
+(customize-set-variable 'helm-occur-use-ioccur-style-keys t)
+
 (helm-mode 1)
 
 (provide 'init-helm)
