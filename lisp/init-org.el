@@ -3,7 +3,6 @@
 
 (maybe-require-package 'org-cliplink)
 
-(define-key global-map (kbd "C-c l") 'org-store-link)
 (define-key global-map (kbd "C-c a") 'org-agenda)
 
 ;; Various preferences
@@ -320,7 +319,18 @@ typical word processor."
 (setq org-archive-mark-done nil)
 (setq org-archive-location "%s_archive::* Archive")
 
+
+;;; Links
 
+(defun my/org-insert-jira-link (ticket-id)
+  "Insert \"org-mode\" link to jira ticket with id TICKET-ID."
+  (interactive "sEnter Jira Ticket id")
+  (org-insert-link
+   (concat "https://jira.dashlane.com/browse/" ticket-id)
+   (concat "https://jira.dashlane.com/browse/" ticket-id)
+   ticket-id))
+(define-key global-map (kbd "C-c l") 'org-store-link)
+(define-key org-mode-map (kbd "C-c j") 'my/org-insert-jira-link)
 
 
 
