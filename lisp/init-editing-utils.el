@@ -254,7 +254,8 @@ With a prefix argument, insert a newline above the current line."
                                         ;(global-set-key (kbd "C-x C-.") 'pop-global-mark)
 
 (when (maybe-require-package 'avy)
-  (global-set-key (kbd "C-;") 'avy-goto-char-timer))
+  (global-set-key (kbd "C-;") 'avy-goto-char-timer)
+  (global-set-key (kbd "M-l") 'avy-goto-line))
 
 (require-package 'multiple-cursors)
 ;; multiple-cursors
