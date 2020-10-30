@@ -3,7 +3,9 @@
   (setq flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list)
 
   (when (maybe-require-package 'flycheck-color-mode-line)
-    (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
+    (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
+  (when (maybe-require-package 'flycheck-yamllint)
+    (add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup)))
 
 
 (provide 'init-flycheck)
